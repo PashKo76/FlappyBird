@@ -25,11 +25,11 @@ namespace FlappyBird
             this.height = height;
             this.wallAmount = wallAmount;
             render = new Render(this);
-            bird = new Bird(ref update, this, height / 8, width / (2 * wallAmount), wallAmount * width / (height / 2));
+            bird = new Bird(ref update, this, 0, width / (2 * wallAmount), wallAmount * width / (height / 2));
             walls = new Wall[wallAmount];
             for(int x = 0; x < walls.Length; x++)
             {
-                walls[x] = new Wall(ref update, this, x * width / wallAmount, random.Next(0, height), width/(10*wallAmount), 1, random);
+                walls[x] = new Wall(ref update, this, x * width / wallAmount, random.Next(0, height), width/(10*wallAmount), 2, random);
             }
         }
         bool CheckBirdCollision()
