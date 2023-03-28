@@ -67,8 +67,8 @@ namespace FlappyBird
             FillRenderScene();
             render.RenderScene();
             Console.SetCursorPosition(width / 2, height / 2);
-            Console.WriteLine("Press UpArrow Key To Start");
-            while (Console.ReadKey().Key != ConsoleKey.UpArrow) { }
+            Console.WriteLine("Wait 2 seconds");
+            Thread.Sleep(2000);
         }
         internal void Update(ref bool IsGameAlive)
         {

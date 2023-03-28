@@ -5,7 +5,7 @@
     {
         static void Main(string[] args)
         {
-            Scene scene = new Scene(200, 50, 2);
+            Scene scene = new Scene(150, 25, 2);
             bool IsGamePlay = true;
             scene.Start();
             DateTimeOffset GameStart = DateTimeOffset.Now;
