@@ -19,17 +19,17 @@ namespace FlappyBird
         internal int wallAmount { get; private set; }
         internal Scene(int width, int height, int wallAmount)
         {
-            Console.SetBufferSize(width, height);
             Console.SetWindowSize(width, height);
+            Console.SetBufferSize(width + 1, height + 1);
             this.width = width;
             this.height = height;
             this.wallAmount = wallAmount;
             render = new Render(this);
-            bird = new Bird(ref update, this, height / 8, width / (2 * wallAmount), wallAmount * width / (height / 2));
+            bird = new Bird(ref update, this, 0, width / (2 * wallAmount), wallAmount * width / (height / 2));
             walls = new Wall[wallAmount];
             for(int x = 0; x < walls.Length; x++)
             {
-                walls[x] = new Wall(ref update, this, x * width / wallAmount, random.Next(0, height), width/(10*wallAmount), 1, random);
+                walls[x] = new Wall(ref update, this, x * width / wallAmount, random.Next(0, height), width/(10*wallAmount), 2, random);
             }
         }
         bool CheckBirdCollision()
@@ -67,8 +67,10 @@ namespace FlappyBird
             FillRenderScene();
             render.RenderScene();
             Console.SetCursorPosition(width / 2, height / 2);
-            Console.WriteLine("Press UpArrow Key To Start");
-            while (Console.ReadKey().Key != ConsoleKey.UpArrow) { }
+            Console.WriteLine("Wait 2 seconds");
+            Thread.Sleep(2000);
+            FillRenderScene();
+            render.RenderScene();
         }
         internal void Update(ref bool IsGameAlive)
         {

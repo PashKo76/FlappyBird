@@ -26,7 +26,7 @@ namespace FlappyBird
             }
             else
             {
-                fallSpeed = -scene.height / 5;
+                fallSpeed = -fallAceleration / 2;
             }
             y += fallSpeed * Render.deltaTime;
             fall = true;
