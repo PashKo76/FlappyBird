@@ -19,8 +19,8 @@ namespace FlappyBird
         internal int wallAmount { get; private set; }
         internal Scene(int width, int height, int wallAmount)
         {
-            Console.SetBufferSize(width, height);
             Console.SetWindowSize(width, height);
+            Console.SetBufferSize(width, height);
             this.width = width;
             this.height = height;
             this.wallAmount = wallAmount;
