@@ -20,7 +20,7 @@ namespace FlappyBird
         internal Scene(int width, int height, int wallAmount)
         {
             Console.SetWindowSize(width, height);
-            Console.SetBufferSize(width, height);
+            Console.SetBufferSize(width + 1, height + 1);
             this.width = width;
             this.height = height;
             this.wallAmount = wallAmount;
@@ -69,6 +69,8 @@ namespace FlappyBird
             Console.SetCursorPosition(width / 2, height / 2);
             Console.WriteLine("Wait 2 seconds");
             Thread.Sleep(2000);
+            FillRenderScene();
+            render.RenderScene();
         }
         internal void Update(ref bool IsGameAlive)
         {
