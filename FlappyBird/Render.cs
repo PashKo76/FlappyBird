@@ -9,18 +9,22 @@ namespace FlappyBird
     internal class Render
     {
         static internal float deltaTime { get; private set; }
-        static int t0 = DateTimeOffset.UtcNow.Millisecond;
-        static int t1 = 0;
+        static long t0 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        static long t1 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         Scene scene;
         char[,] currScene;
         char[,] prevScene;
         static internal void CalculateDeltaTime()
         {
-            t0 = DateTimeOffset.UtcNow.Millisecond;
-            if (t0 < t1) t0 += 1000;
+            
+            t0 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            //if (t0 < t1) t0 += 1000;
+            //Console.SetCursorPosition(0, 0);
+            //Console.WriteLine(t1);
+            //Console.WriteLine(t0);
             deltaTime = (t0 - t1);
             deltaTime /= 1000f;
-            if (t0 >= 1000) t0 -= 1000;
+            //if (t0 >= 1000) t0 -= 1000;
             t1 = t0;
         }
         internal void SetPixel(int x, int y, char symbol)
@@ -43,6 +47,7 @@ namespace FlappyBird
                 {
                     Console.SetCursorPosition(x, y);
                     Console.Write(currScene[x, y]);
+                    currScene[x, y] = ' ';
                 }
             }
         }

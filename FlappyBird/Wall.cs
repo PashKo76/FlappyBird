@@ -11,25 +11,25 @@ namespace FlappyBird
         Random rand;
         float speed;
         internal int holeSize { get; private set; }
-        public Wall(ref Update update, Scene scene, float x, float y, float speed, int holeSize, Random random) : base(ref update, scene, x, y)
+        public Wall(Scene scene, float x, float y, float speed, int holeSize, Random random) : base(scene, x, y)
         {
             this.speed = speed;
             this.holeSize = holeSize;
             rand = random;
         }
-        internal override void Update()
+        public override void Update()
         {
             x -= speed * Render.deltaTime;
             x = Distance(x, scene.width, 0);
         }
         float Distance(float Curr, float Max, float Min)
         {
-            if (Curr >= Max) return Distance(Curr - Max, Max, Min);
-            else if (Curr < Min) return Distance(Curr + Max, Max, Min);
+            if (Curr >= Max) return Curr - Max;
+            else if (Curr < Min) return Curr + Max;
             else
             {
-                return Curr;
                 y = rand.Next(holeSize, scene.height - holeSize);
+                return Curr;
             }
         }
     }

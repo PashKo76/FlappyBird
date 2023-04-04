@@ -11,14 +11,16 @@ namespace FlappyBird
         bool fall = true;
         float fallAceleration;
         float fallSpeed;
-        internal Bird(ref Update update, Scene scene, float y, float x, float fallAceleration) : base(ref update, scene, x, y)
+        float jumpSpeed;
+        internal Bird(Scene scene, float y, float x, float fallAceleration) : base(scene, x, y)
         {
             this.fallAceleration = fallAceleration;
             fallSpeed = 0;
-            Thread thread = new Thread(Key);
+            jumpSpeed = -fallAceleration / 2;
+            Thread thread = new Thread(() => Key(ref fall));
             thread.Start();
         }
-        internal override void Update()
+        public override void Update()
         {
             if (fall)
             {
@@ -26,18 +28,17 @@ namespace FlappyBird
             }
             else
             {
-                fallSpeed = -fallAceleration / 2;
+                fallSpeed = jumpSpeed;
             }
             y += fallSpeed * Render.deltaTime;
             fall = true;
-            
         }
-        void Key()
+        void Key(ref bool Bool)
         {
             while (true)
             {
                 if (Console.ReadKey().Key != ConsoleKey.UpArrow) continue;
-                fall = false;
+                Bool = false;
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlappyBird
 {
-    internal abstract class GameObject
+    internal abstract class GameObject : IObserver
     {
         internal float x { get; private protected set; }
         internal float y { get; private protected set; }
@@ -19,13 +19,22 @@ namespace FlappyBird
             return (int)MathF.Round(y);
         }
         protected Scene scene;
-        internal GameObject(ref Update update, Scene scene, float x, float y)
+        internal GameObject(Scene scene, float x, float y)
         {
             this.x = x;
             this.y = y;
             this.scene = scene;
-            update += Update;
         }
-        abstract internal void Update();
+        abstract public void Update();
+    }
+    interface IObserver
+    {
+        void Update();
+    }
+    interface IObservable
+    {
+        void AddObserver(IObserver o);
+        void RemoveObserver(IObserver o);
+        void Notify();
     }
 }

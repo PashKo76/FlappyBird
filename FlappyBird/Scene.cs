@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace FlappyBird
 {
-    internal class Scene
+    internal class Scene : IObservable
     {
         Random random = new Random();
         Render render;
         Wall[] walls;
         Bird bird;
-        Update update = () => { };
+        List<IObserver> observers = new List<IObserver>();
         bool gameStarted = false;
         internal int width { get; private set; }
         internal int height { get; private set; }
@@ -25,11 +25,29 @@ namespace FlappyBird
             this.height = height;
             this.wallAmount = wallAmount;
             render = new Render(this);
-            bird = new Bird(ref update, this, 0, width / (2 * wallAmount), wallAmount * width / (height / 2));
+            bird = new Bird(this, 0, width / (2 * wallAmount), wallAmount * width / (height / 2));
+            AddObserver(bird);
             walls = new Wall[wallAmount];
             for(int x = 0; x < walls.Length; x++)
             {
-                walls[x] = new Wall(ref update, this, x * width / wallAmount, random.Next(0, height), width/(10*wallAmount), 2, random);
+                walls[x] = new Wall(this, x * width / wallAmount, random.Next(0, height), width / (10 * wallAmount), 2, random);
+                AddObserver(walls[x]);
+            }
+            
+        }
+        public void AddObserver(IObserver o)
+        {
+            observers.Add(o);
+        }
+        public void RemoveObserver(IObserver o)
+        {
+            observers.Remove(o);
+        }
+        public void Notify()
+        {
+            for(int i = 0; i < observers.Count; i++)
+            {
+                observers[i].Update();
             }
         }
         bool CheckBirdCollision()
@@ -76,9 +94,12 @@ namespace FlappyBird
         {
             FillRenderScene();
             render.RenderScene();
-            update.Invoke();
-            IsGameAlive = !CheckBirdCollision();
+            Notify();
+            //render.DumbRender();
+            //IsGameAlive = !CheckBirdCollision();
             Render.CalculateDeltaTime();
+            render.WriteDeltaTime();
+            //(x3 < x1 && x1 < x4) || (x3 < x2 && x2 < x4)
         }
     }
 }
